@@ -1,6 +1,7 @@
 import os
 import csv
 import shutil
+import json
 
 from .driver import Driver
 
@@ -10,7 +11,30 @@ class DuplicateNameError(Exception):
 
 
 def get_content(url):
-    pass
+    wms = find_all_wms(url)
+    wm_dict = {}
+
+    for wm in wms:
+        #extract the text portion of the wm :
+        # <TODO some magic>
+        class_name = '' # extract the class name from the object
+        text = '' # extract the to-be-compared text from the object
+        wm_dict[class_name] = text
+
+    return wm_dict
+
+
+def find_all_wms(url):
+    d = Driver()
+    res = d.get(url)
+
+   # parse the tree to find all classes whose names start with WMS-.....
+    wms = []
+
+   #<TODO some magic>
+
+
+    return wms
 
 
 class Refresh:
@@ -58,7 +82,7 @@ class Refresh:
         self.names.add(name)
 
         content = get_content(url)
-        self. save_content(content, name)
+        self. save_content(json.dumps(content), name)
 
     def save_content(self, content, name):
         fn = os.path.join(self.expected_dir, name)
