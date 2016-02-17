@@ -1,5 +1,6 @@
 import os
 import csv
+import shutil
 
 from .driver import Driver
 
@@ -8,9 +9,9 @@ class DuplicateNameError(Exception):
     pass
 
 
-def save_content(url, fw):
-    fw.write('this is a line')
-    fw.write('this is another line')
+def get_content(url):
+    pass
+
 
 class Refresh:
 
@@ -26,9 +27,12 @@ class Refresh:
             raise IOError('File {} does not exist'.format(csvfp))
 
         csv_dir = os.path.dirname(os.path.abspath(csvfp))
-        self.expected_dir = os.path.join(csv_dir,'expected')
-        if not os.path.isdir(self.expected_dir):
-            os.makedirs(self.expected_dir)
+        csvfp_name = os.path.splitext(os.path.basename(csvfp))[0]
+
+        self.expected_dir = os.path.join(csv_dir,'expected_{}'.format(csvfp_name))
+       # clear down the directory and recreate empty
+        shutil.rmtree(self.expected_dir, ignore_errors=True)
+        os.makedirs(self.expected_dir)
 
         with open(csvfp) as f:
             reader = csv.reader(f)
@@ -53,8 +57,13 @@ class Refresh:
 
         self.names.add(name)
 
+        content = get_content(url)
+        self. save_content(content, name)
+
+    def save_content(self, content, name):
         fn = os.path.join(self.expected_dir, name)
         with open(fn, 'w') as fw:
-            save_content(url, fw)
+            fw.write(content)
+
 
 
