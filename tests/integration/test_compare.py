@@ -24,3 +24,15 @@ def test_compare_ok():
         c.run()
     assert_equal(c.errors, [])
 
+def test_compare_fail():
+    # read what's in expected_compare_url  and use this as what comes back
+    # from the url call
+    fp = os.path.join(DATA_DIR, 'compare-url.csv')
+    c = Compare(fp)
+
+    with patch.object(compare, 'get_content_from_url') as get_content:
+        get_content.return_value = 'something else'
+        c.run()
+    assert_equal(len(c.errors), 1)
+
+

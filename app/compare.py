@@ -75,7 +75,6 @@ class Compare(Structure):
         for url, name in next_row_data:
                 self.compare_expecteds(url, name)
 
-
     def compare_expecteds(self, url, name):
         """compare the result of the url call with the file in the subdirectory named "expected... "
         """
@@ -83,8 +82,8 @@ class Compare(Structure):
         url_content = get_content_from_url(url)
         expected_content = self.get_expected_content(name)
         if url_content != expected_content:
-            self.errors.append(url, url_content, expected_content)
-
+            msg = '{} url: {} expected: {}'.format(url, url_content, expected_content)
+            self.errors.append(msg)
 
     def get_expected_content(self, name):
         fn = os.path.join(self.expected_dir, name)
