@@ -6,6 +6,7 @@ import json
 from .driver import Driver
 
 def get_content_from_url(url):
+    raise NotImplementedError
     wms = find_all_wms(url)
     wm_dict = {}
 
@@ -64,10 +65,6 @@ class Structure:
 
 
 class Compare(Structure):
-
-    def __init__(self, csvfp):
-        super(Compare, self).__init__(csvfp)
-        self.run()
 
     def run(self):
         "read in the given csv and compare the files containing the expected data"

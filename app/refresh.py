@@ -14,7 +14,6 @@ class Refresh(Structure):
     def __init__(self, csvfp):
         super(Refresh, self).__init__(csvfp)
         self.names = set()
-        self.run()
 
     def run(self):
         "read in the given csv and build the files containing the expected data"

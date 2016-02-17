@@ -23,6 +23,7 @@ def test_ds_duplicate_name():
             my_content = {'WMS1': 'my sentinel'}
             get_content.return_value = my_content
             ref = Refresh(os.path.join(DATA_DIR, 'duplicate_name.csv'))
+            ref.run()
             assert_equal(get_content.call_count,1)
             assert_equal(len(ref.errors), 1)
             assert_equal(ref.errors[0].args, ('python-site',))
@@ -33,7 +34,7 @@ def test_ds_simple():
         my_content = {'WMS1': 'my sentinel'}
         get_content.return_value = my_content
         ref = Refresh(os.path.join(DATA_DIR, 'simple.csv'))
-
+        ref.run()
         files_present = os.listdir(ref.expected_dir)
         assert_equal(len(files_present), 1)
 
